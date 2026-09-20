@@ -2,6 +2,6 @@
 .idea/
 .vscode/
 target/
+.mvn/apache-maven-*/
 *.iml
 dados/
-
