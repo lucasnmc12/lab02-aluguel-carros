@@ -1,0 +1,68 @@
+@startuml casos_de_uso_aluguel
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Interessado" as Interessado
+actor "Usuário" as Usuario
+actor "Cliente" as Cliente
+actor "Agente" as Agente
+actor "Empresa" as Empresa
+actor "Banco" as Banco
+
+Cliente --|> Usuario
+Agente --|> Usuario
+Empresa --|> Agente
+Banco --|> Agente
+
+rectangle "Sistema de Aluguel de Carros" {
+  package "Acesso" {
+    usecase "Cadastrar-se" as UC01
+    usecase "Autenticar-se" as UC02
+    usecase "Manter dados\ndo cliente" as UC03
+  }
+
+  package "Gestão de pedidos" {
+    usecase "Criar pedido\nde aluguel" as UC04
+    usecase "Consultar pedidos\npróprios" as UC05
+    usecase "Alterar pedido" as UC06
+    usecase "Cancelar pedido" as UC07
+    usecase "Consultar pedidos\nrecebidos" as UC08
+    usecase "Avaliar pedido" as UC09
+    usecase "Decidir contratação" as UC10
+  }
+
+  package "Gestão de contratos" {
+    usecase "Emitir contrato\nde aluguel" as UC11
+    usecase "Conceder crédito\ndo leasing" as UC12
+  }
+}
+
+Interessado --> UC01
+Usuario --> UC02
+Cliente --> UC03
+Cliente --> UC04
+Cliente --> UC05
+Cliente --> UC06
+Cliente --> UC07
+Cliente --> UC10
+Agente --> UC08
+Agente --> UC09
+Banco --> UC12
+
+UC03 ..> UC02 : <<include>>
+UC04 ..> UC02 : <<include>>
+UC05 ..> UC02 : <<include>>
+UC06 ..> UC05 : <<extend>>\n[Não avaliado]
+UC07 ..> UC05 : <<extend>>\n[Não avaliado]
+UC09 ..> UC08 : <<include>>
+UC10 ..> UC05 : <<extend>>\n[Parecer positivo]
+UC11 ..> UC10 : <<extend>>\n[Cliente aceita]
+UC12 ..> UC11 : <<extend>>\n[Modalidade leasing]
+
+note bottom of UC06
+  O cliente só altera pedidos próprios
+  enquanto não houver parecer.
+end note
+@enduml
+
