@@ -1,0 +1,136 @@
+@startuml diagrama_classes_aluguel
+skinparam shadowing false
+hide empty members
+
+abstract class Usuario {
+  -id: Long
+  -email: String
+  -senhaHash: String
+  +autenticar(senha: String): boolean
+}
+
+class Cliente {
+  -rg: String
+  -cpf: String
+  -nome: String
+  -endereco: String
+  -profissao: String
+  -empregadores: List<Empregador>
+  +adicionarEmpregador(empregador: Empregador): void
+  +removerEmpregador(empregador: Empregador): void
+  +criarPedido(automovel: Automovel, modalidade: Modalidade): PedidoAluguel
+}
+
+abstract class Agente {
+  -cnpj: String
+  -razaoSocial: String
+  +avaliar(pedido: PedidoAluguel, resultado: ResultadoParecer, justificativa: String): Parecer
+}
+
+class Empresa
+class Banco {
+  +concederCredito(leasing: ContratoLeasing, valor: BigDecimal, parcelas: int, taxa: BigDecimal): ContratoCredito
+}
+
+class Empregador {
+  -id: Long
+  -nome: String
+  -rendimento: BigDecimal
+}
+
+class Automovel {
+  -id: Long
+  -placa: String
+  -ano: int
+  -marca: String
+  -modelo: String
+  -proprietario: Usuario
+}
+
+class PedidoAluguel {
+  -id: Long
+  -criadoEm: LocalDateTime
+  -modalidade: Modalidade
+  -status: StatusPedido
+  +alterar(automovel: Automovel, modalidade: Modalidade): void
+  +cancelar(): void
+  +registrarParecer(parecer: Parecer): void
+  +registrarDecisao(aceito: boolean): void
+}
+
+class Parecer {
+  -id: Long
+  -resultado: ResultadoParecer
+  -justificativa: String
+  -emitidoEm: LocalDateTime
+}
+
+abstract class ContratoAluguel {
+  -id: Long
+  -inicio: LocalDate
+  -fim: LocalDate
+  -valor: BigDecimal
+  -status: StatusContrato
+  +iniciarExecucao(): void
+  +encerrar(): void
+}
+
+class ContratoLocacao
+class ContratoAssinatura {
+  -mensalidade: BigDecimal
+}
+class ContratoLeasing
+
+class ContratoCredito {
+  -id: Long
+  -valorFinanciado: BigDecimal
+  -quantidadeParcelas: int
+  -taxaJuros: BigDecimal
+}
+
+enum Modalidade {
+  LOCACAO
+  ASSINATURA
+  LEASING
+}
+enum StatusPedido {
+  AGUARDANDO_ANALISE
+  AGUARDANDO_CLIENTE
+  REJEITADO
+  ACEITO
+  RECUSADO_PELO_CLIENTE
+  CANCELADO
+}
+enum ResultadoParecer {
+  POSITIVO
+  NEGATIVO
+}
+enum StatusContrato {
+  PENDENTE
+  EM_EXECUCAO
+  ENCERRADO
+}
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+Cliente "1" *-- "0..3" Empregador : informa
+Cliente "1" -- "0..*" PedidoAluguel : realiza
+PedidoAluguel "0..*" --> "1" Automovel : solicita
+PedidoAluguel --> Modalidade
+PedidoAluguel --> StatusPedido
+PedidoAluguel "1" o-- "0..1" Parecer
+Parecer "0..*" --> "1" Agente : emitido por
+Parecer --> ResultadoParecer
+PedidoAluguel "1" --> "0..1" ContratoAluguel : origina
+ContratoAluguel <|-- ContratoLocacao
+ContratoAluguel <|-- ContratoAssinatura
+ContratoAluguel <|-- ContratoLeasing
+ContratoAluguel "1" --> "1" Cliente : contratante
+ContratoAluguel "1" --> "1" Automovel
+ContratoAluguel --> StatusContrato
+ContratoLeasing "1" *-- "1" ContratoCredito
+ContratoCredito "0..*" --> "1" Banco : concedido por
+Automovel "0..*" --> "1" Usuario : propriedade de
+@enduml
