@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cliente não encontrado</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main class="container estreito centro">
+    <p class="rotulo">Erro 404</p>
+    <h1>Cliente não encontrado</h1>
+    <p th:text="${mensagemErro}">O cadastro solicitado não existe.</p>
+    <a class="botao principal" th:href="@{/clientes}">Voltar aos clientes</a>
+</main>
+</body>
+</html>
+
