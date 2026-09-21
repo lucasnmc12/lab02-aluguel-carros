@@ -26,3 +26,6 @@ Criei quatro testes de integração que inicializam a aplicação e exercitam as
 
 Usei o Codex, da OpenAI, como apoio para elaborar a especificação técnica, implementar o projeto Spring, escrever a interface, criar os testes e executar as verificações. A ferramenta também identificou os erros de template durante o teste e fez as correções. Mantive commits separados para modelagem, arquitetura, domínio, rotas, interface e testes para que a evolução possa ser apresentada e revisada.
 
+### Revisão conforme orientação em aula
+
+Depois que o professor apresentou as entidades do domínio no quadro, revisei a hierarquia de usuários para `Usuario > Cliente` e `Usuario > Agente > Locadora/Banco`. A mudança aproxima a nomenclatura do projeto da utilizada em aula e esclarece que a locadora e o banco analisam pedidos como agentes. O CRUD desta sprint não precisou mudar, porque sua implementação está limitada a `Cliente` e `Empregador`; as entidades de agente serão implementadas com os demais fluxos na Sprint 3.

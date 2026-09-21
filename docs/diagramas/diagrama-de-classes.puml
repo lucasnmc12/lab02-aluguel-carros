@@ -27,7 +27,7 @@ abstract class Agente {
   +avaliar(pedido: PedidoAluguel, resultado: ResultadoParecer, justificativa: String): Parecer
 }
 
-class Empresa
+class Locadora
 class Banco {
   +concederCredito(leasing: ContratoLeasing, valor: BigDecimal, parcelas: int, taxa: BigDecimal): ContratoCredito
 }
@@ -113,7 +113,7 @@ enum StatusContrato {
 
 Usuario <|-- Cliente
 Usuario <|-- Agente
-Agente <|-- Empresa
+Agente <|-- Locadora
 Agente <|-- Banco
 Cliente "1" *-- "0..3" Empregador : informa
 Cliente "1" -- "0..*" PedidoAluguel : realiza

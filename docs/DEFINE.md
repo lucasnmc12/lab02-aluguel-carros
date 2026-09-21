@@ -7,7 +7,7 @@ Clientes precisam solicitar aluguel de veículos pela internet e agentes finance
 ## Usuários
 
 - **Cliente individual:** quer manter seus dados e controlar pedidos próprios antes da avaliação; precisa compreender o parecer e decidir se contrata.
-- **Agente de empresa:** recebe pedidos, analisa a viabilidade e registra o parecer.
+- **Agente da locadora:** recebe pedidos, analisa a viabilidade e registra o parecer.
 - **Agente bancário:** além de avaliar pedidos, concede o crédito vinculado ao leasing.
 
 ## Prioridades
@@ -61,3 +61,16 @@ Clientes precisam solicitar aluguel de veículos pela internet e agentes finance
 
 Pontuação: **14/15**. A rubrica, os usuários, os dados do cliente, a plataforma e o limite da Sprint 2 estão explícitos. A única incerteza é o conteúdo do feedback oral da Sprint 1, que não foi fornecido; a revisão foi feita por consistência interna e aderência ao enunciado.
 
+## Hierarquia de usuários revisada
+
+A revisão feita após a explicação do professor em aula adotou a seguinte estrutura como referência do domínio:
+
+```text
+Usuario
+├── Cliente
+└── Agente
+    ├── Locadora
+    └── Banco
+```
+
+`Agente` concentra o comportamento comum de avaliação financeira. `Locadora` e `Banco` representam os dois agentes concretos. A entidade empregadora informada nos dados financeiros do cliente continua sendo `Empregador`, evitando confundi-la com a locadora que participa do aluguel.

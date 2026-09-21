@@ -7,12 +7,12 @@ actor "Interessado" as Interessado
 actor "Usuário" as Usuario
 actor "Cliente" as Cliente
 actor "Agente" as Agente
-actor "Empresa" as Empresa
+actor "Locadora" as Locadora
 actor "Banco" as Banco
 
 Cliente --|> Usuario
 Agente --|> Usuario
-Empresa --|> Agente
+Locadora --|> Agente
 Banco --|> Agente
 
 rectangle "Sistema de Aluguel de Carros" {
@@ -65,4 +65,3 @@ note bottom of UC06
   enquanto não houver parecer.
 end note
 @enduml
-
