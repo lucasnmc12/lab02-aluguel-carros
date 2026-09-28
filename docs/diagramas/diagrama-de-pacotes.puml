@@ -3,54 +3,51 @@ skinparam shadowing false
 skinparam packageStyle rectangle
 
 package "br.edu.pucminas.aluguel" {
-  package "controller" as controller {
+  package controller {
     class ClienteController
+    class PedidoController
+    class AcessoController
   }
-  package "service" as service {
+  package service {
     class ClienteService
+    class PedidoService
   }
-  package "repository" as repository {
+  package repository {
     interface ClienteRepository
+    interface PedidoRepository
+    interface AutomovelRepository
   }
-  package "model" as model {
+  package model {
+    class Usuario
     class Cliente
     class Empregador
+    class Automovel
     class PedidoAluguel
-    class ContratoAluguel
   }
-  package "dto" as dto {
+  package dto {
     class ClienteForm
-    class EmpregadorForm
+    class PedidoForm
   }
-  package "config" as config {
-    class WebConfig
+  package config {
+    class SegurancaConfig
+    class AutomoveisIniciais
   }
 }
 
-package "templates" as templates {
-  class "clientes/lista.html" as lista <<view>>
-  class "clientes/formulario.html" as formulario <<view>>
-  class "clientes/detalhes.html" as detalhes <<view>>
+package "templates Thymeleaf" as templates {
+  class "acesso/*.html" as acesso <<view>>
+  class "clientes/*.html" as clientes <<view>>
+  class "pedidos/*.html" as pedidos <<view>>
 }
-
-class "Banco de dados" as db <<database>>
+class "H2" as banco <<database>>
 
 controller ..> dto
 controller --> service
-controller --> templates : seleciona view
+controller --> templates : escolhe página
 service --> repository
 service --> model
 repository --> model
-repository --> db : JPA
-dto ..> model : transfere dados
-config ..> controller
-
-note bottom of controller
-  Recebe requisições HTTP e coordena
-  a navegação, sem regra de negócio.
-end note
-note bottom of service
-  Aplica unicidade, limite de empregadores
-  e transações do caso de uso.
-end note
+repository --> banco : JPA
+config ..> controller : protege rotas
+config ..> repository : carrega catálogo
 @enduml

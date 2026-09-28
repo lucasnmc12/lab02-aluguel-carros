@@ -1,0 +1,56 @@
+@startuml diagrama_pacotes_aluguel
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "br.edu.pucminas.aluguel" {
+  package "controller" as controller {
+    class ClienteController
+  }
+  package "service" as service {
+    class ClienteService
+  }
+  package "repository" as repository {
+    interface ClienteRepository
+  }
+  package "model" as model {
+    class Cliente
+    class Empregador
+    class PedidoAluguel
+    class ContratoAluguel
+  }
+  package "dto" as dto {
+    class ClienteForm
+    class EmpregadorForm
+  }
+  package "config" as config {
+    class WebConfig
+  }
+}
+
+package "templates" as templates {
+  class "clientes/lista.html" as lista <<view>>
+  class "clientes/formulario.html" as formulario <<view>>
+  class "clientes/detalhes.html" as detalhes <<view>>
+}
+
+class "Banco de dados" as db <<database>>
+
+controller ..> dto
+controller --> service
+controller --> templates : seleciona view
+service --> repository
+service --> model
+repository --> model
+repository --> db : JPA
+dto ..> model : transfere dados
+config ..> controller
+
+note bottom of controller
+  Recebe requisições HTTP e coordena
+  a navegação, sem regra de negócio.
+end note
+note bottom of service
+  Aplica unicidade, limite de empregadores
+  e transações do caso de uso.
+end note
+@enduml

@@ -4,28 +4,31 @@ hide empty members
 
 abstract class Usuario {
   -id: Long
+  -email: String
   -senhaHash: String
+  +autenticar(senha: String): boolean
 }
 
 class Cliente {
   -rg: String
+  -cpf: String
   -nome: String
   -endereco: String
   -profissao: String
-  -cpf: String <<identificador de login>>
   -empregadores: List<Empregador>
   +adicionarEmpregador(empregador: Empregador): void
-  +substituirEmpregadores(itens: List<Empregador>): void
+  +removerEmpregador(empregador: Empregador): void
+  +criarPedido(automovel: Automovel, modalidade: Modalidade): PedidoAluguel
 }
 
-abstract class Agente <<previsto>> {
+abstract class Agente {
   -cnpj: String
   -razaoSocial: String
   +avaliar(pedido: PedidoAluguel, resultado: ResultadoParecer, justificativa: String): Parecer
 }
 
-class Locadora <<previsto>>
-class Banco <<previsto>> {
+class Empresa
+class Banco {
   +concederCredito(leasing: ContratoLeasing, valor: BigDecimal, parcelas: int, taxa: BigDecimal): ContratoCredito
 }
 
@@ -41,6 +44,7 @@ class Automovel {
   -ano: int
   -marca: String
   -modelo: String
+  -proprietario: Usuario
 }
 
 class PedidoAluguel {
@@ -50,16 +54,18 @@ class PedidoAluguel {
   -status: StatusPedido
   +alterar(automovel: Automovel, modalidade: Modalidade): void
   +cancelar(): void
+  +registrarParecer(parecer: Parecer): void
+  +registrarDecisao(aceito: boolean): void
 }
 
-class Parecer <<previsto>> {
+class Parecer {
   -id: Long
   -resultado: ResultadoParecer
   -justificativa: String
   -emitidoEm: LocalDateTime
 }
 
-abstract class ContratoAluguel <<previsto>> {
+abstract class ContratoAluguel {
   -id: Long
   -inicio: LocalDate
   -fim: LocalDate
@@ -69,13 +75,13 @@ abstract class ContratoAluguel <<previsto>> {
   +encerrar(): void
 }
 
-class ContratoLocacao <<previsto>>
-class ContratoAssinatura <<previsto>> {
+class ContratoLocacao
+class ContratoAssinatura {
   -mensalidade: BigDecimal
 }
-class ContratoLeasing <<previsto>>
+class ContratoLeasing
 
-class ContratoCredito <<previsto>> {
+class ContratoCredito {
   -id: Long
   -valorFinanciado: BigDecimal
   -quantidadeParcelas: int
@@ -107,7 +113,7 @@ enum StatusContrato {
 
 Usuario <|-- Cliente
 Usuario <|-- Agente
-Agente <|-- Locadora
+Agente <|-- Empresa
 Agente <|-- Banco
 Cliente "1" *-- "0..3" Empregador : informa
 Cliente "1" -- "0..*" PedidoAluguel : realiza
@@ -127,18 +133,4 @@ ContratoAluguel --> StatusContrato
 ContratoLeasing "1" *-- "1" ContratoCredito
 ContratoCredito "0..*" --> "1" Banco : concedido por
 Automovel "0..*" --> "1" Usuario : propriedade de
-
-note bottom of Usuario
-  Implementado como @MappedSuperclass.
-  Cliente herda id e senhaHash.
-end note
-note bottom of PedidoAluguel
-  Protótipo executável: criar, consultar,
-  alterar e cancelar enquanto aguarda análise.
-  Parecer e decisão ficam previstos.
-end note
-note bottom of Automovel
-  Catálogo inicial de três veículos.
-  Propriedade é regra do modelo final.
-end note
 @enduml

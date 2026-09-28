@@ -1,0 +1,33 @@
+@startuml diagrama_implantacao_aluguel
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+node "Computador do cliente" as cliente {
+  artifact "Navegador web" as navegador
+}
+
+cloud "Internet / rede" as rede
+
+node "Servidor central" as servidor {
+  node "JVM 21" as jvm {
+    artifact "aluguel-carros.jar\nSpring Boot + MVC + Security" as jar
+    artifact "Páginas Thymeleaf\ne CSS" as html
+  }
+  database "H2 em memória\n(protótipo)" as h2
+}
+
+node "Computador do agente\n(fase futura)" as agente {
+  artifact "Navegador web" as navegadorAgente
+}
+
+navegador -- rede : HTTP local / HTTPS publicado
+rede -- jar : requisições e respostas HTML
+jar -- html : renderização
+jar -- h2 : JDBC / JPA
+navegadorAgente .. rede : acesso previsto
+
+note bottom of h2
+  Os dados são perdidos quando o processo encerra.
+  Para uso permanente, substituir por banco persistente.
+end note
+@enduml

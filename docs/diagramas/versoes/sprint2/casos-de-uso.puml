@@ -64,10 +64,4 @@ note bottom of UC06
   O cliente só altera pedidos próprios
   enquanto não houver parecer.
 end note
-
-note bottom of UC09
-  UC01 a UC07 possuem fluxo no protótipo.
-  Avaliação, decisão e contratos seguem
-  como visão do sistema completo.
-end note
 @enduml

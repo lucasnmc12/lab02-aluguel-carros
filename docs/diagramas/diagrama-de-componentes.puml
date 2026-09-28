@@ -3,40 +3,34 @@ skinparam shadowing false
 skinparam componentStyle rectangle
 
 actor Cliente
-actor Agente
-
 node "Computador / navegador" as browser {
-  component "Páginas web\nThymeleaf" as pages
+  component "Interface HTML" as pagina
 }
-
 cloud Internet
-
-node "Servidor central" as server {
-  component "ClienteController\n<<MVC Controller>>" as controller
-  component "ClienteService\n<<Application Service>>" as service
-  component "Gestão de pedidos\ne contratos\n<<Sprint 3>>" as pedidos
-  component "Construção dinâmica\nde páginas\n<<Spring MVC + Thymeleaf>>" as web
-  component "ClienteRepository\n<<Spring Data JPA>>" as repository
-  component "Validação\n<<Bean Validation>>" as validation
+node "Servidor central · Spring Boot" as server {
+  component "Spring Security\nlogin + sessão + CSRF" as seguranca
+  component "Spring MVC\nClienteController\nPedidoController" as controller
+  component "Thymeleaf\nconstrução de páginas" as view
+  component "ClienteService\nPedidoService" as service
+  component "Bean Validation" as validation
+  component "Spring Data JPA\nrepositórios" as repository
+  database "H2 em memória" as banco
 }
 
-database "H2\n<<Sprint 2>>" as database
+Cliente --> pagina
+pagina --> Internet : HTTP local / HTTPS em implantação
+Internet --> seguranca : requisição
+seguranca --> controller : usuário autenticado
+controller --> validation : formulários
+controller --> service : casos de uso
+controller --> view : modelo e view
+view --> pagina : HTML
+service --> repository : entidades
+repository --> banco : JDBC
 
-Cliente --> pages
-Agente --> pages
-pages --> Internet : HTTPS
-Internet --> controller : requisições HTTP
-controller --> validation : valida formulários
-controller --> service : CRUD de cliente
-controller --> web : seleciona view e modelo
-web --> pages : HTML renderizado
-service --> repository
-service ..> pedidos : cliente será contratante
-repository --> database : JPA/JDBC
-
-note right of pedidos
-  Componente modelado agora e previsto
-  para implementação na Sprint 3.
+note bottom of server
+  Protótipo da Sprint III: cadastro/login de cliente,
+  CRUD do próprio cadastro e criação/consulta de pedidos.
+  Avaliação por agente e contratos continuam previstos.
 end note
 @enduml
-
