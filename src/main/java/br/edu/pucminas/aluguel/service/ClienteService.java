@@ -8,14 +8,17 @@ import br.edu.pucminas.aluguel.repository.ClienteRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClienteService {
     private final ClienteRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClienteService(ClienteRepository repository) {
+    public ClienteService(ClienteRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -28,21 +31,38 @@ public class ClienteService {
         return repository.findById(id).orElseThrow(() -> new ClienteNaoEncontradoException(id));
     }
 
+    @Transactional(readOnly = true)
+    public Cliente buscarProprio(Long id, String cpf) {
+        Cliente cliente = buscar(id);
+        if (!cliente.getCpf().equals(cpf)) {
+            throw new ClienteNaoEncontradoException(id);
+        }
+        return cliente;
+    }
+
+    @Transactional(readOnly = true)
+    public Cliente buscarPorCpf(String cpf) {
+        return repository.findByCpf(cpf).orElseThrow();
+    }
+
     @Transactional
     public Cliente criar(ClienteForm form) {
+        if (form.getSenha() == null || form.getSenha().length() < 8) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 8 caracteres");
+        }
         String cpf = somenteDigitos(form.getCpf());
         if (repository.existsByCpf(cpf)) {
             throw new CpfDuplicadoException();
         }
         Cliente cliente = new Cliente(form.getRg().trim(), cpf, form.getNome().trim(),
-                form.getEndereco().trim(), form.getProfissao().trim());
+                form.getEndereco().trim(), form.getProfissao().trim(), passwordEncoder.encode(form.getSenha()));
         cliente.substituirEmpregadores(converterEmpregadores(form));
         return repository.save(cliente);
     }
 
     @Transactional
-    public Cliente atualizar(Long id, ClienteForm form) {
-        Cliente cliente = buscar(id);
+    public Cliente atualizar(Long id, String cpfAutenticado, ClienteForm form) {
+        Cliente cliente = buscarProprio(id, cpfAutenticado);
         String cpf = somenteDigitos(form.getCpf());
         if (repository.existsByCpfAndIdNot(cpf, id)) {
             throw new CpfDuplicadoException();
@@ -54,8 +74,8 @@ public class ClienteService {
     }
 
     @Transactional
-    public void excluir(Long id) {
-        Cliente cliente = buscar(id);
+    public void excluir(Long id, String cpfAutenticado) {
+        Cliente cliente = buscarProprio(id, cpfAutenticado);
         repository.delete(cliente);
     }
 
@@ -82,4 +102,3 @@ public class ClienteService {
         return valor == null ? "" : valor.replaceAll("\\D", "");
     }
 }
-

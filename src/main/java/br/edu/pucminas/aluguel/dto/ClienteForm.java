@@ -31,6 +31,8 @@ public class ClienteForm {
     @Size(max = 100, message = "A profissão deve ter no máximo 100 caracteres")
     private String profissao = "";
 
+    private String senha = "";
+
     @Valid
     @Size(max = Cliente.MAXIMO_EMPREGADORES, message = "Informe no máximo três empregadores")
     private List<EmpregadorForm> empregadores = tresEmpregadoresVazios();
@@ -73,7 +75,8 @@ public class ClienteForm {
     public void setEndereco(String endereco) { this.endereco = endereco; }
     public String getProfissao() { return profissao; }
     public void setProfissao(String profissao) { this.profissao = profissao; }
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
     public List<EmpregadorForm> getEmpregadores() { return empregadores; }
     public void setEmpregadores(List<EmpregadorForm> empregadores) { this.empregadores = empregadores; }
 }
-

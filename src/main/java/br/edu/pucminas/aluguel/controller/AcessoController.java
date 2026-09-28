@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class InicioController {
-    @GetMapping("/")
-    public String inicio() {
-        return "redirect:/pedidos";
+public class AcessoController {
+    @GetMapping("/entrar")
+    public String entrar() {
+        return "acesso/entrar";
     }
 }

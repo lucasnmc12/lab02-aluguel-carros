@@ -14,11 +14,11 @@
 <main class="container">
     <div class="titulo-acao">
         <div>
-            <p class="rotulo">Sprint 2 · CRUD MVC</p>
-            <h1>Clientes</h1>
-            <p>Dados utilizados na análise financeira dos pedidos.</p>
+            <p class="rotulo">Meu cadastro</p>
+            <h1>Dados do cliente</h1>
+            <p>Seus dados utilizados na análise financeira dos pedidos.</p>
         </div>
-        <a class="botao principal" th:href="@{/clientes/novo}">Cadastrar cliente</a>
+        <a class="botao principal" th:href="@{/pedidos}">Meus pedidos</a>
     </div>
 
     <div class="alerta sucesso" th:if="${mensagem}" th:text="${mensagem}"></div>
@@ -43,4 +43,3 @@
 </main>
 </body>
 </html>
-

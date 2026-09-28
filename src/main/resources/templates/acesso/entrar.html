@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entrar | ViaCar</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="cabecalho"><a class="marca" th:href="@{/entrar}">ViaCar</a><span>Gestão de aluguel de carros</span></header>
+<main class="container estreito">
+    <p class="rotulo">Acesso do cliente</p>
+    <h1>Entre na sua conta</h1>
+    <div class="alerta erro" th:if="${param.erro}">CPF ou senha inválidos.</div>
+    <div class="alerta sucesso" th:if="${param.cadastro}">Cadastro realizado. Entre para continuar.</div>
+    <div class="alerta sucesso" th:if="${param.saiu}">Você saiu da sua conta.</div>
+    <form class="formulario" method="post" th:action="@{/entrar}">
+        <section class="painel grade-formulario">
+            <label class="campo largo">CPF
+                <input type="text" name="cpf" autocomplete="username" required>
+            </label>
+            <label class="campo largo">Senha
+                <input type="password" name="password" autocomplete="current-password" required>
+            </label>
+        </section>
+        <div class="acoes entre">
+            <a th:href="@{/clientes/novo}">Criar cadastro</a>
+            <button class="botao principal" type="submit">Entrar</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

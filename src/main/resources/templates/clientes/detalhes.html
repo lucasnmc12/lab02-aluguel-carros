@@ -13,6 +13,7 @@
 </header>
 <main class="container estreito">
     <a class="voltar" th:href="@{/clientes}">← Voltar aos clientes</a>
+    <a class="voltar" th:href="@{/pedidos}">Ver meus pedidos →</a>
     <div class="alerta sucesso" th:if="${mensagem}" th:text="${mensagem}"></div>
     <div class="perfil">
         <span class="avatar grande" th:text="${#strings.substring(cliente.nome, 0, 1)}">L</span>

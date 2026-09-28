@@ -43,6 +43,10 @@
                     <input type="text" th:field="*{profissao}" maxlength="100">
                     <small class="erro-campo" th:errors="*{profissao}"></small>
                 </label>
+                <label class="campo largo" th:if="${titulo == 'Novo cliente'}">Senha de acesso (mínimo 8 caracteres)
+                    <input type="password" th:field="*{senha}" minlength="8" autocomplete="new-password">
+                    <small class="erro-campo" th:errors="*{senha}"></small>
+                </label>
             </div>
         </section>
 

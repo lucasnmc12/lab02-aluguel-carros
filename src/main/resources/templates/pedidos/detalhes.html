@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalhes do pedido | ViaCar</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body>
+<header class="cabecalho"><a class="marca" th:href="@{/pedidos}">ViaCar</a><span>Gestão de aluguel de carros</span></header>
+<main class="container estreito"><a class="voltar" th:href="@{/pedidos}">← Meus pedidos</a>
+    <p class="rotulo">Solicitação de aluguel</p><h1 th:text="|Pedido #${pedido.id}|">Pedido</h1>
+    <div class="alerta sucesso" th:if="${mensagem}" th:text="${mensagem}"></div>
+    <section class="painel detalhes"><h2>Status atual</h2>
+        <p class="status" th:text="${pedido.status.descricao}">Aguardando análise</p>
+        <dl><div><dt>Modalidade</dt><dd th:text="${pedido.modalidade.descricao}">Locação</dd></div>
+            <div><dt>Data do pedido</dt><dd th:text="${#temporals.format(pedido.criadoEm, 'dd/MM/yyyy HH:mm')}">Data</dd></div>
+            <div class="largo"><dt>Automóvel</dt><dd th:text="|${pedido.automovel.marca} ${pedido.automovel.modelo} · ${pedido.automovel.ano} · ${pedido.automovel.placa}|">Automóvel</dd></div>
+        </dl>
+    </section>
+    <div class="acoes entre" th:if="${podeAlterar}">
+        <form method="post" th:action="@{/pedidos/{id}/cancelar(id=${pedido.id})}"
+              onsubmit="return confirm('Cancelar este pedido?');">
+            <button class="botao perigo" type="submit">Cancelar pedido</button></form>
+        <a class="botao principal" th:href="@{/pedidos/{id}/editar(id=${pedido.id})}">Editar pedido</a>
+    </div>
+</main></body></html>

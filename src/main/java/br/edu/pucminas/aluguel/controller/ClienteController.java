@@ -6,6 +6,11 @@ import br.edu.pucminas.aluguel.service.ClienteNaoEncontradoException;
 import br.edu.pucminas.aluguel.service.ClienteService;
 import br.edu.pucminas.aluguel.service.CpfDuplicadoException;
 import jakarta.validation.Valid;
+import java.security.Principal;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +34,8 @@ public class ClienteController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("clientes", service.listar());
+    public String listar(Model model, Principal principal) {
+        model.addAttribute("clientes", java.util.List.of(service.buscarPorCpf(principal.getName())));
         return "clientes/lista";
     }
 
@@ -45,14 +50,16 @@ public class ClienteController {
     @PostMapping
     public String criar(@Valid @ModelAttribute ClienteForm clienteForm, BindingResult binding,
                         Model model, RedirectAttributes redirect) {
+        if (clienteForm.getSenha() == null || clienteForm.getSenha().length() < 8) {
+            binding.rejectValue("senha", "senha.curta", "A senha deve ter pelo menos 8 caracteres");
+        }
         if (binding.hasErrors()) {
             prepararFormulario(model, "Novo cliente", "/clientes");
             return "clientes/formulario";
         }
         try {
-            Cliente cliente = service.criar(clienteForm);
-            redirect.addFlashAttribute("mensagem", "Cliente cadastrado com sucesso.");
-            return "redirect:/clientes/" + cliente.getId();
+            service.criar(clienteForm);
+            return "redirect:/entrar?cadastro";
         } catch (CpfDuplicadoException | IllegalArgumentException e) {
             binding.reject("cliente.invalido", e.getMessage());
             prepararFormulario(model, "Novo cliente", "/clientes");
@@ -61,14 +68,14 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public String detalhar(@PathVariable Long id, Model model) {
-        model.addAttribute("cliente", service.buscar(id));
+    public String detalhar(@PathVariable Long id, Model model, Principal principal) {
+        model.addAttribute("cliente", service.buscarProprio(id, principal.getName()));
         return "clientes/detalhes";
     }
 
     @GetMapping("/{id}/editar")
-    public String editar(@PathVariable Long id, Model model) {
-        Cliente cliente = service.buscar(id);
+    public String editar(@PathVariable Long id, Model model, Principal principal) {
+        Cliente cliente = service.buscarProprio(id, principal.getName());
         model.addAttribute("clienteForm", ClienteForm.de(cliente));
         prepararFormulario(model, "Editar cliente", "/clientes/" + id);
         return "clientes/formulario";
@@ -77,13 +84,20 @@ public class ClienteController {
     @PostMapping("/{id}")
     public String atualizar(@PathVariable Long id,
                             @Valid @ModelAttribute ClienteForm clienteForm,
-                            BindingResult binding, Model model, RedirectAttributes redirect) {
+                            BindingResult binding, Model model, RedirectAttributes redirect,
+                            Principal principal, Authentication authentication,
+                            HttpServletRequest request, HttpServletResponse response) {
+        service.buscarProprio(id, principal.getName());
         if (binding.hasErrors()) {
             prepararFormulario(model, "Editar cliente", "/clientes/" + id);
             return "clientes/formulario";
         }
         try {
-            service.atualizar(id, clienteForm);
+            service.atualizar(id, principal.getName(), clienteForm);
+            if (!principal.getName().equals(clienteForm.getCpf().replaceAll("\\D", ""))) {
+                new SecurityContextLogoutHandler().logout(request, response, authentication);
+                return "redirect:/entrar?cadastro";
+            }
             redirect.addFlashAttribute("mensagem", "Cliente atualizado com sucesso.");
             return "redirect:/clientes/" + id;
         } catch (CpfDuplicadoException | IllegalArgumentException e) {
@@ -94,10 +108,11 @@ public class ClienteController {
     }
 
     @PostMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id, RedirectAttributes redirect) {
-        service.excluir(id);
-        redirect.addFlashAttribute("mensagem", "Cliente excluído com sucesso.");
-        return "redirect:/clientes";
+    public String excluir(@PathVariable Long id, Principal principal, Authentication authentication,
+                          HttpServletRequest request, HttpServletResponse response) {
+        service.excluir(id, principal.getName());
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
+        return "redirect:/entrar?saiu";
     }
 
     private void prepararFormulario(Model model, String titulo, String acao) {
@@ -112,4 +127,3 @@ public class ClienteController {
         return "erro/404";
     }
 }
-

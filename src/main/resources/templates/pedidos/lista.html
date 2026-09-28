@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meus pedidos | ViaCar</title><link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="cabecalho"><a class="marca" th:href="@{/pedidos}">ViaCar</a><span>Meus pedidos de aluguel</span></header>
+<main class="container">
+    <div class="titulo-acao"><div><p class="rotulo">Sprint III · protótipo</p><h1>Meus pedidos</h1>
+        <p>Acompanhe o status dos aluguéis solicitados.</p></div>
+        <a class="botao principal" th:href="@{/pedidos/novo}">Criar pedido</a></div>
+    <div class="acoes entre"><a th:href="@{/clientes}">Meu cadastro</a>
+        <form method="post" th:action="@{/sair}"><button class="botao secundario" type="submit">Sair</button></form></div>
+    <section class="vazio" th:if="${#lists.isEmpty(pedidos)}"><h2>Nenhum pedido ainda</h2>
+        <p>Escolha um automóvel e uma modalidade para começar.</p></section>
+    <section class="grade-clientes" th:unless="${#lists.isEmpty(pedidos)}">
+        <a class="cartao" th:each="pedido : ${pedidos}" th:href="@{/pedidos/{id}(id=${pedido.id})}">
+            <span class="avatar">#</span><span>
+                <strong th:text="|Pedido #${pedido.id}|">Pedido</strong>
+                <small th:text="|${pedido.automovel.marca} ${pedido.automovel.modelo} · ${pedido.modalidade.descricao}|">Automóvel</small>
+                <small th:text="${pedido.status.descricao}">Status</small></span><span class="seta">→</span>
+        </a>
+    </section>
+</main></body></html>

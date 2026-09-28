@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pedido não disponível | ViaCar</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body><main class="container estreito centro"><p class="rotulo">Operação indisponível</p>
+    <h1>O pedido mudou de status</h1><p th:text="${mensagemErro}">Este pedido não pode ser alterado.</p>
+    <a class="botao principal" th:href="@{/pedidos}">Ver meus pedidos</a></main></body></html>

@@ -4,9 +4,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
@@ -15,12 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
+public class Cliente extends Usuario {
     public static final int MAXIMO_EMPREGADORES = 3;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false, length = 20)
     private String rg;
@@ -42,10 +35,14 @@ public class Cliente {
     @OrderColumn(name = "ordem")
     private List<Empregador> empregadores = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidoAluguel> pedidos = new ArrayList<>();
+
     protected Cliente() {
     }
 
-    public Cliente(String rg, String cpf, String nome, String endereco, String profissao) {
+    public Cliente(String rg, String cpf, String nome, String endereco, String profissao, String senhaHash) {
+        super(senhaHash);
         atualizarDados(rg, cpf, nome, endereco, profissao);
     }
 
@@ -73,7 +70,6 @@ public class Cliente {
         empregadores.add(empregador);
     }
 
-    public Long getId() { return id; }
     public String getRg() { return rg; }
     public String getCpf() { return cpf; }
     public String getNome() { return nome; }

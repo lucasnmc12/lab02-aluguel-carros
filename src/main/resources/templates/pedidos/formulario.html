@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo + ' | ViaCar'}">Pedido</title><link rel="stylesheet" th:href="@{/css/app.css}"></head>
+<body>
+<header class="cabecalho"><a class="marca" th:href="@{/pedidos}">ViaCar</a><span>Gestão de aluguel de carros</span></header>
+<main class="container estreito"><a class="voltar" th:href="@{/pedidos}">← Meus pedidos</a>
+    <p class="rotulo">Solicitação de aluguel</p><h1 th:text="${titulo}">Novo pedido</h1>
+    <form class="formulario" method="post" th:action="${acao}" th:object="${pedidoForm}">
+        <section class="painel grade-formulario">
+            <label class="campo largo">Automóvel
+                <select th:field="*{automovelId}" required><option value="">Selecione um automóvel</option>
+                    <option th:each="auto : ${automoveis}" th:value="${auto.id}"
+                            th:text="|${auto.marca} ${auto.modelo} (${auto.ano}) · ${auto.placa}|">Veículo</option></select>
+                <small class="erro-campo" th:errors="*{automovelId}"></small>
+            </label>
+            <label class="campo largo">Modalidade
+                <select th:field="*{modalidade}" required><option value="">Selecione uma modalidade</option>
+                    <option th:each="item : ${modalidades}" th:value="${item}" th:text="${item.descricao}">Locação</option></select>
+                <small class="erro-campo" th:errors="*{modalidade}"></small>
+            </label>
+        </section>
+        <p>Ao enviar, o pedido ficará com status “Aguardando análise”.</p>
+        <div class="acoes"><a class="botao secundario" th:href="@{/pedidos}">Voltar</a>
+            <button class="botao principal" type="submit">Salvar pedido</button></div>
+    </form>
+</main></body></html>
