@@ -10,5 +10,4 @@ O produto deve ser web, escrito em Java e organizado em arquitetura MVC. O siste
 
 - Sprint 1: casos de uso, histórias de usuário, classes e pacotes.
 - Sprint 2: revisão dos diagramas, componentes e CRUD de cliente.
-- Sprint 3: protótipo completo e modelos atualizados.
-
+- Sprint 3: revisão dos diagramas, diagrama de implantação e protótipo em que usuários cadastrados criam pedidos e visualizam seu status.

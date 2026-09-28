@@ -8,9 +8,9 @@ O sistema apoia a gestão de pedidos e contratos de aluguel de automóveis. Clie
 
 - Sprint 1: casos de uso, histórias de usuário, diagrama de classes e diagrama de pacotes.
 - Sprint 2: revisão dos modelos, diagrama de componentes e CRUD web de clientes em Java com MVC.
-- Sprint 3: protótipo completo, comparação entre os modelos e o código e atualização dos diagramas.
+- Sprint 3: revisão dos modelos, diagrama de implantação e protótipo para cadastrar clientes, criar pedidos e acompanhar seu status.
 
-## Executar o CRUD de clientes
+## Executar o protótipo
 
 Requer Java 21. O Maven Wrapper baixa o Maven na primeira execução.
 
@@ -18,7 +18,9 @@ Requer Java 21. O Maven Wrapper baixa o Maven na primeira execução.
 ./mvnw spring-boot:run
 ```
 
-Abra `http://localhost:8080/clientes`. Os dados ficam no banco H2 em memória e são reiniciados quando a aplicação encerra.
+Abra `http://localhost:8080`. Cadastre um cliente com CPF e senha, entre, escolha um dos três automóveis de demonstração e crie um pedido. A lista e o detalhe mostram o status. É possível editar ou cancelar o pedido enquanto aguarda análise.
+
+Os dados ficam no banco H2 em memória e são reiniciados quando a aplicação encerra. O protótipo implementa o fluxo do cliente. Análise por locadora/banco e contratos permanecem na modelagem, sem telas executáveis nesta entrega.
 
 ## Verificar
 
@@ -32,8 +34,8 @@ Abra `http://localhost:8080/clientes`. Os dados ficam no banco H2 em memória e 
 docs/                       requisitos, decisões, diagramas e contribuições
 src/main/java/              aplicação MVC
 src/main/resources/         páginas Thymeleaf e configuração
-src/test/java/              testes do CRUD
+src/test/java/              testes do CRUD, login e pedidos
 ```
 
 Os arquivos-fonte PlantUML e suas exportações estão em `docs/diagramas/`.
-
+O diagrama de implantação está em [docs/diagramas/diagrama-de-implantacao.puml](docs/diagramas/diagrama-de-implantacao.puml) e a revisão da Sprint III em [docs/SPRINT3.md](docs/SPRINT3.md).

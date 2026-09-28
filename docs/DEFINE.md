@@ -74,3 +74,14 @@ Usuario
 ```
 
 `Agente` concentra o comportamento comum de avaliação financeira. `Locadora` e `Banco` representam os dois agentes concretos. A entidade empregadora informada nos dados financeiros do cliente continua sendo `Empregador`, evitando confundi-la com a locadora que participa do aluguel.
+
+## Critérios verificáveis da Sprint III
+
+1. Um cliente cadastrado com CPF e senha consegue entrar; credenciais inválidas são recusadas.
+2. Somente o cliente autenticado cria pedidos; cada pedido associa esse cliente, um automóvel existente e uma modalidade válida.
+3. Um pedido novo aparece para o seu dono com status `AGUARDANDO_ANALISE` na lista e na página de detalhes.
+4. Outro cliente não consegue consultar, alterar ou cancelar o pedido; uma requisição sem sessão não acessa o fluxo.
+5. Enquanto aguarda análise, o dono pode alterar automóvel/modalidade ou cancelar; após o cancelamento, o estado exibido muda para `CANCELADO` e novas alterações são recusadas.
+6. O diagrama de implantação mostra navegador, rede, servidor Java, artefatos e banco H2 com suas conexões.
+
+Nesta sprint, a avaliação por agentes e a geração de contratos permanecem no modelo alvo. O status `AGUARDANDO_ANALISE` é o estado inicial real do protótipo; não há parecer financeiro automático.
