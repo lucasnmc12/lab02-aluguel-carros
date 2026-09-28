@@ -1,0 +1,15 @@
+183166f  27/09/2026 22:07  docs: registra escopo e contribuicao individual da sprint 3
+8fb808a  27/09/2026 22:07  docs: exporta diagramas atualizados para entrega
+54f5aed  27/09/2026 22:07  docs: revisa UML e adiciona diagrama de implantacao
+cb055ab  27/09/2026 22:06  test: cobre login e fluxo de pedidos por cliente
+f6565b0  27/09/2026 22:06  feat: implementa acesso de clientes e pedidos de aluguel
+2edfa88  21/09/2026 11:55  docs: alinha hierarquia de agentes com orientacao em aula
+0ecc445  20/09/2026 20:23  docs: adiciona evidencias visuais da entrega
+9562b12  20/09/2026 20:22  docs: registra contribuicoes e evidencias das sprints
+254019d  20/09/2026 20:20  test: valida fluxos do CRUD de clientes
+3dd43f4  20/09/2026 20:18  feat: cria interface web para gerenciar clientes
+d01e24b  20/09/2026 20:18  feat: implementa regras e rotas do CRUD de clientes
+c335c14  20/09/2026 20:15  feat: cria dominio e persistencia do cliente
+6ca0162  20/09/2026 20:13  docs: projeta arquitetura e componentes da sprint 2
+273eea0  20/09/2026 20:13  docs: define diagramas de classes e pacotes
+9019616  20/09/2026 20:11  docs: modela casos de uso e historias da sprint 1
