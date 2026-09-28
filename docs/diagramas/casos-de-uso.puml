@@ -3,7 +3,6 @@ left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
 
-actor "Interessado" as Interessado
 actor "Usuário" as Usuario
 actor "Cliente" as Cliente
 actor "Agente" as Agente
@@ -38,7 +37,7 @@ rectangle "Sistema de Aluguel de Carros" {
   }
 }
 
-Interessado --> UC01
+Usuario --> UC01
 Usuario --> UC02
 Cliente --> UC03
 Cliente --> UC04

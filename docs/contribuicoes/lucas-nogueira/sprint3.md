@@ -11,3 +11,5 @@ Mantive a divisão MVC: controllers recebem as requisições e escolhem páginas
 Testei o percurso de cadastro, login, criação, consulta, edição e cancelamento com MockMvc e H2, incluindo dados inválidos, falta de sessão, falta de CSRF e tentativa de acessar pedido de outro cliente. Fiz uma mutação temporária local retirando a restrição de dono do pedido: o teste de acesso cruzado falhou como esperado; em seguida restaurei a checagem. O protótipo ainda não registra pareceres nem cria contratos. O banco em memória foi mantido para uma demonstração simples e reproduzível.
 
 Usei o Codex, da OpenAI, como apoio na implementação, atualização dos diagramas, documentação, escrita dos testes e execução das verificações. Revisei os resultados e organizei a evolução em commits com assuntos separados. As decisões de escopo e a apresentação do trabalho são minhas.
+
+Em aula, em 28/09, defini que o usuário já inicia o percurso no cadastro. Com apoio do Codex, retirei o ator `Interessado` do diagrama de casos de uso, liguei `Cadastrar-se` a `Usuário`, atualizei a história correspondente e exportei novamente as imagens. Mantive as versões anteriores para registrar a mudança.

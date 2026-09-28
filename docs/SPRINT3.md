@@ -30,7 +30,7 @@ O Spring Security controla a sessão, protege as rotas, exige token CSRF nos for
 
 ## Revisão dos modelos
 
-- Casos de uso: a hierarquia `Usuario → Cliente/Agente → Locadora/Banco` já incorpora o feedback informado pelo professor. Nesta entrega, UC01–UC07 estão acessíveis pelo fluxo do cliente; UC08–UC12 representam etapas futuras.
+- Casos de uso: a hierarquia `Usuario → Cliente/Agente → Locadora/Banco` incorpora o feedback informado pelo professor. Na revisão de 28/09, o cadastro passou a se ligar diretamente a `Usuário`, sem ator `Interessado`. Nesta entrega, UC01–UC07 estão acessíveis pelo fluxo do cliente; UC08–UC12 representam etapas futuras.
 - Classes: `Usuario`, `Cliente`, `Empregador`, `Automovel`, `PedidoAluguel`, `Modalidade` e `StatusPedido` têm correspondentes no código. Agentes, parecer e contratos foram marcados como previstos. A propriedade do automóvel também é uma regra futura.
 - Pacotes: acrescentados controllers, services, repositories, formulários e configuração reais da Sprint III.
 - Componentes: substituído o componente planejado de pedidos pelo fluxo executável com segurança, MVC, Thymeleaf, JPA e H2.

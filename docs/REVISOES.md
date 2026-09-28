@@ -37,3 +37,9 @@ Nenhuma alteração no CRUD de cliente foi necessária. A Sprint 2 implementa `C
 O plano anterior previa agentes, pareceres e contratos já na Sprint III. A implementação foi delimitada ao protótipo explicitamente cobrado nesta rubrica: cliente cadastrado cria e acompanha pedidos. Essas classes continuam nos diagramas com a marca `previsto`, evitando confundir modelagem final com código executável. A decisão preserva a hierarquia acordada com o professor; `Agente`, `Locadora` e `Banco` ainda não têm persistência nem telas. Não recebemos correções orais adicionais para os diagramas.
 
 Os testes passaram a verificar login, dados próprios, criação/status, edição/cancelamento e isolamento entre clientes. O H2 segue em memória, logo dados e pedidos se perdem ao encerrar a aplicação.
+
+## 28/09/2026 — Ator inicial do cadastro
+
+**Origem:** orientação recebida em aula, registrada pelo aluno. **Impacto:** médio na modelagem de casos de uso; sem mudança de comportamento no protótipo.
+
+O ator `Interessado` foi retirado do diagrama atual. O caso de uso `Cadastrar-se` agora se liga diretamente a `Usuário`, que começa seu percurso pelo cadastro. A história HU01 foi ajustada para usar a mesma nomenclatura. As versões das Sprints I e II permanecem arquivadas em `docs/diagramas/versoes/` para mostrar a evolução do modelo. O código de cadastro e login já seguia esse percurso, portanto não precisou de alteração.

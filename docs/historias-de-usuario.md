@@ -6,7 +6,7 @@ As histórias abaixo correspondem aos casos de uso do diagrama da Sprint 1. Como
 
 ### HU01 — Cadastrar-se (UC01)
 
-Como interessado, quero cadastrar meus dados e credenciais, para utilizar o sistema de aluguel.
+Como usuário ainda não cadastrado, quero informar meus dados e criar minhas credenciais, para utilizar o sistema de aluguel.
 
 Critérios de aceitação:
 
@@ -116,4 +116,3 @@ Critérios de aceitação:
 
 - Apenas banco agente concede crédito.
 - O crédito referencia exatamente um contrato de leasing e registra valor, prazo e taxa.
-
